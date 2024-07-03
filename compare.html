@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beef Cattle Farming Chatbot</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            background-color: #f8f9fa;
+            transition: background-color 0.3s ease;
+        }
+        .content {
+            flex: 1 0 auto;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .content.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .jumbotron {
+            background-color: #007bff;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            padding: 100px 0;
+        }
+        footer {
+            flex-shrink: 0;
+        }
+        .card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .card-body {
+            transition: background-color 0.3s ease;
+        }
+        .card:hover .card-body {
+            background-color: #f8f9fa;
+        }
+        .card-title {
+            color: #007bff;
+            transition: color 0.3s ease;
+        }
+        .card:hover .card-title {
+            color: #0056b3;
+        }
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .dark-mode {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+        .dark-mode .card {
+            background-color: #454d55;
+            color: #f8f9fa;
+        }
+        .dark-mode .card:hover .card-body {
+            background-color: #343a40;
+        }
+    </style>
+    <!-- Botpress Chatbot Scripts -->
+    <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+    <script src="https://mediafiles.botpress.cloud/c5396aa5-94af-438e-a34a-9d120b349844/webchat/config.js" defer></script>
+</head>
+<body>
+    <div class="content">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#">Beef Cattle Farming</a>
+                <button class="btn btn-outline-light" id="darkModeToggle">
+                    <i class="fas fa-moon"></i> Dark Mode
+                </button>
+            </div>
+        </nav>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container text-center">
+                <h1 class="display-4">Beef Cattle Farming Chatbot</h1>
+                <p class="lead">Your AI assistant for all things related to beef cattle farming</p>
+                <button class="btn btn-light btn-lg mt-3" id="getStarted">
+                    Get Started <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-comments card-icon text-primary"></i>
+                            <h5 class="card-title">Expert Advice</h5>
+                            <p class="card-text">Get expert advice on cattle breeding, nutrition, and health management.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-chart-line card-icon text-success"></i>
+                            <h5 class="card-title">Market Insights</h5>
+                            <p class="card-text">Stay updated with the latest market trends and pricing information.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-leaf card-icon text-info"></i>
+                            <h5 class="card-title">Best Practices</h5>
+                            <p class="card-text">Learn about the best practices in sustainable beef cattle farming.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p class="lead">Have questions? Our chatbot is here to help! Click the chat icon in the bottom right corner to get started.</p>
+            </div>
+
+            <div class="mt-5">
+                <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                What breeds are best for beef production?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Popular beef cattle breeds include Angus, Hereford, Charolais, and Simmental. Each breed has its own strengths in terms of growth rate, meat quality, and adaptability to different environments.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                How much land do I need for beef cattle farming?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                The amount of land needed varies based on factors such as climate, soil quality, and management practices. Generally, you might need 1.5 to 2 acres per cow-calf pair in areas with good rainfall and productive pastures.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3">
+        <p class="mb-0">&copy; 2024 Beef Cattle Farming Chatbot. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        // Page load animation
+        window.addEventListener('load', function() {
+            document.querySelector('.content').classList.add('loaded');
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+                this.textContent = ' Light Mode';
+                this.prepend(icon);
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+                this.textContent = ' Dark Mode';
+                this.prepend(icon);
+            }
+        });
+
+        // Get Started button to open chatbot
+        document.getElementById('getStarted').addEventListener('click', function() {
+            if (window.botpressWebChat) {
+                window.botpressWebChat.sendEvent({ type: 'show' });
+            } else {
+                console.error('Botpress Web Chat is not available');
+                alert('Our chat is currently unavailable. Please try again later.');
+            }
+        });
+    </script>
+</body>
+</html>
